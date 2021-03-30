@@ -63,15 +63,16 @@
 
 <script>
 function onSubmit(token) {
-	document.getElementById("demo-form").submit();
+	document.getElementById("login-form").submit();
 }
 </script>
 
-	<button class="g-recaptcha"
+    <label>&nbsp;</label>
+	<input type="submit" class="g-recaptcha"
         data-sitekey="6Ld-apUaAAAAAPIjBi3BlUKK_DP4Tl9WTYhJdbwQ"
         data-callback='onSubmit'
 				data-style='hola'
-        data-action='submit'>Submit</button>
+				data-action='submit' value="{% trans 'Log in' %}">
   </div>
 </form>
 
