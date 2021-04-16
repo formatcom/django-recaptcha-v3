@@ -59,22 +59,52 @@
   {% endif %}
   <div class="submit-row">
 
-<script src="https://www.google.com/recaptcha/api.js"></script>
+  <label>&nbsp;</label>
+	<input id='onlogin' type="submit" value="{% trans 'Log in' %}" />
+	<input id='onotp'   type="submit" value="Test OTP" />
+
+  </div>
+</form>
+
+<script src="https://www.google.com/recaptcha/api.js?render=6Ld-apUaAAAAAPIjBi3BlUKK_DP4Tl9WTYhJdbwQ"></script>
 
 <script>
-function onSubmit(token) {
-	document.getElementById("login-form").submit();
+function onSubmit(form) {
+	grecaptcha.ready(function() {
+		grecaptcha.execute('6Ld-apUaAAAAAPIjBi3BlUKK_DP4Tl9WTYhJdbwQ', {action: 'submit'}).then(function(token) {
+
+			input =  document.createElement("input");
+			input.setAttribute("type",  "hidden");
+			input.setAttribute("name",  "g-recaptcha-response");
+			input.setAttribute("value", token);
+
+			form.appendChild(input);
+
+			form.submit();
+		});
+  });
+}
+
+document.getElementById('onlogin').onclick = function(e) {
+	e.preventDefault();
+
+	onSubmit(document.getElementById("login-form"));
+}
+
+document.getElementById('onotp').onclick = function(e) {
+	e.preventDefault();
+
+	input =  document.createElement("input");
+	input.setAttribute("type",  "hidden");
+	input.setAttribute("name",  "otp-challenge");
+	input.setAttribute("value", "1");
+
+	form = document.getElementById("login-form");
+	form.appendChild(input);
+	onSubmit(form);
 }
 </script>
 
-    <label>&nbsp;</label>
-	<input type="submit" class="g-recaptcha"
-        data-sitekey="6Ld-apUaAAAAAPIjBi3BlUKK_DP4Tl9WTYhJdbwQ"
-        data-callback='onSubmit'
-				data-style='hola'
-				data-action='submit' value="{% trans 'Log in' %}">
-  </div>
-</form>
 
 </div>
 {% endblock %}
